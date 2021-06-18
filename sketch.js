@@ -1,21 +1,19 @@
-let myVideo;
-let otherVideo;
+let serverVideo;
 
 function setup() {
   createCanvas(640, 480);
-  myVideo = createCapture(VIDEO, 
-    function(stream) {
-      let p5l = new p5LiveMedia(this, "CAPTURE", stream, "jZQ64AMJc_TESTTEST");
-    }
-  );  
-  myVideo.muted = true;     
-  myVideo.hide();
+  let p5l = new p5LiveMedia(this, "CAPTURE", serverVideo, "jZQ64AMJc_TESTTEST");
+  p5l.on('stream', gotStream);
 }
 
 function draw() {
   background(220);
-  stroke(255);
-  if (myVideo != null) {
-    image(myVideo,0,0);
-  }
+  if (serverVideo != null) {
+    image(serverVideo,0,0);
+  }  
+}
+
+function gotStream(stream, id) {
+  serverVideo = stream;
+  serverVideo.hide();
 }
